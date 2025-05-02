@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Playoffs Predictions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">🏀 NBA Playoffs Predictions</h1>
+
+        <!-- Link to add a new prediction -->
+        <a href="/add" class="btn btn-success mb-4">+ Submit a New Prediction</a>
+
+        <% if (predictions.length > 0) { %>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <% predictions.forEach(entry => { %>
+                    <div class="col">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= entry.user %>'s Bracket</h5>
+                                <p class="card-text">
+                                    🏆 <strong>Champion:</strong> <%= entry.champion %><br>
+                                    🥈 <strong>Runner-Up:</strong> <%= entry.runnerUp %><br>
+                                    🌟 <strong>Finals MVP:</strong> <%= entry.finalsMVP %><br>
+                                    🚨 <strong>Dark Horse:</strong> <%= entry.darkHorse %><br>
+                                    📊 <strong>Confidence:</strong> <%= entry.confidenceLevel %> / 10
+                                </p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    Submitted on: <%= entry.predictionDate.toLocaleDateString() %>
+                                </small>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="/<%= entry._id %>" class="btn btn-outline-primary">View</a>
+                                    <a href="/edit/<%= entry._id %>" class="btn btn-outline-warning">Edit</a>
+                                    <button class="btn btn-outline-danger delete-btn" data-id="<%= entry._id %>">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info">
+                No predictions yet — be the first to share your playoff insights!
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Delete prediction logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const id = this.getAttribute('data-id');
+                    if (confirm('Are you sure you want to permanently delete this prediction?')) {
+                        try {
+                            const response = await fetch(`/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            
+                            const data = await response.json();
+                            
+                            if (data.msg === 'Prediction deleted') {
+                                // Remove the card from the UI without full page reload
+                                this.closest('.col').remove();
+                            } else {
+                                window.location.reload()
+                            }
+                        } catch (error) {
+                            console.error('Delete request failed:', error);
+                            alert('Delete request failed. Check console for details.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

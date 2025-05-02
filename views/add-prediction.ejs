@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Your NBA Playoff Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">🏀 Make Your NBA Playoff Picks</h1>
+
+        <!-- Form for user to submit a playoff prediction -->
+        <form action="/add" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="user" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="user" name="user" placeholder="e.g. Jordan23" required>
+                <div class="invalid-feedback">Name is required.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="champion" class="form-label">Champion</label>
+                <input type="text" class="form-control" id="champion" name="champion" placeholder="Who takes the trophy?" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="runnerUp" class="form-label">Runner-Up</label>
+                <input type="text" class="form-control" id="runnerUp" name="runnerUp" placeholder="Second best team" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="finalsMVP" class="form-label">Finals MVP</label>
+                <input type="text" class="form-control" id="finalsMVP" name="finalsMVP" placeholder="Most valuable player" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="darkHorse" class="form-label">Dark Horse Team</label>
+                <input type="text" class="form-control" id="darkHorse" name="darkHorse" placeholder="Sleeper pick?" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="confidenceLevel" class="form-label">Confidence Level (1 to 10)</label>
+                <input type="number" class="form-control" id="confidenceLevel" name="confidenceLevel" min="1" max="10" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">📨 Submit Prediction</button>
+                <a href="/" class="btn btn-outline-secondary">⬅ Back to List</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap and optional JS for validation -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Bootstrap validation logic
+        (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+</body>
+</html>
