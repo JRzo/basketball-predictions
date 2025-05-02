@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "basketball-predictions": "file:",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mongoose": "^8.14.1",
     "node": "^22.15.0"
